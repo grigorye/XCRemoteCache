@@ -176,7 +176,7 @@ module CocoapodsXCRemoteCacheModifier
           prebuild_script.dependency_file = "$(TARGET_TEMP_DIR)/prebuild.d"
 
           # Move prebuild (last element) to the position before compile sources phase (to make it real 'prebuild')
-          if !existing_prebuild_script
+          if !existing_prebuild_script && target.class.method_defined?(:source_build_phase)
             compile_phase_index = target.build_phases.index(target.source_build_phase)
             target.build_phases.insert(compile_phase_index, target.build_phases.delete(prebuild_script))
           end
@@ -204,7 +204,7 @@ module CocoapodsXCRemoteCacheModifier
         ]
         postbuild_script.dependency_file = "$(TARGET_TEMP_DIR)/postbuild.d"
         # Move postbuild (last element) to the position after compile sources phase (to make it real 'postbuild')
-        if !existing_postbuild_script
+        if !existing_postbuild_script && target.class.method_defined?(:source_build_phase)
           compile_phase_index = target.build_phases.index(target.source_build_phase)
           target.build_phases.insert(compile_phase_index + 1, target.build_phases.delete(postbuild_script))
         end
