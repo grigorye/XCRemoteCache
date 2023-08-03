@@ -67,7 +67,7 @@ private func which(_ cmd: String) throws -> String {
     return try shellGetStdout("/usr/bin/which", args: [cmd])
 }
 
-private func shellInternal(_ cmd: String, args: [String] = [], stdout: PipeLike?, stderr: PipeLike?, inDir dir: String? = nil, environment: [String: String]? = nil) throws {
+func shellInternal(_ cmd: String, args: [String] = [], stdout: PipeLike?, stderr: PipeLike?, inDir dir: String? = nil, environment: [String: String]? = nil) throws {
     let absCmd = try cmd.starts(with: "/") ? cmd : which(cmd)
 
     let errorHandle = Pipe()

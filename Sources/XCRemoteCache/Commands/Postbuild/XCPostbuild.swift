@@ -204,7 +204,16 @@ public class XCPostbuild {
                 dSYMPath: context.dSYMPath,
                 wasDsymGenerated: context.wasDsymGenerated,
                 fileManager: fileManager,
-                shellCall: shellCall
+                shellCall: { (cmd: String, args: [String], dir: String?, environment: [String: String]?) in
+                    try shellInternal(
+                        cmd,
+                        args: args,
+                        stdout: FileHandle.standardOutput,
+                        stderr: nil,
+                        inDir: dir,
+                        environment: environment
+                    )
+                }
             )
             let metaReader = JsonMetaReader(fileAccessor: fileManager)
 
